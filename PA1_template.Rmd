@@ -53,7 +53,7 @@ head(mean_steps)
 > 1. Make a histogram of the total number of steps taken each day
 > 
 
-_Histrogram of the total number of steps taken each day_
+_Histogram of the total number of steps taken each day_
 ```{r, echo = TRUE}
 hist(steps_per_day$steps, main = "Total number of steps per day", xlab = "Steps per day")
 ```
@@ -72,7 +72,7 @@ mean_median
 > 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 >
 
-_Time series plot of the 5-minute intervals and the average number of steps taken, averaged against all days._
+_Time series plot of the 5-minute intervals and the average number of steps taken, averaged across all days._
 ```{r, echo = TRUE}
 plot(mean_steps$interval, mean_steps$mean_steps, type = "n",
      main = "Average steps taken per 5-minute interval",
@@ -91,17 +91,18 @@ mean_steps[which.max(mean_steps$mean_steps), 1]
 ## Imputing missing values
 > 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-_The total number of missing values in the dataset:_
+_The total number of rows with missing values in the dataset:_
 ```{r echo = TRUE}
 sum(is.na(df$steps))
 ```
 
 > 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-_Using the mean for the interval, fill in the missing values._
+_We will fill in the missing values using the mean for that interval._
 ```{r, echo = TRUE}
 # merge the original dataset with the mean steps per interval set
 fixed_data <- merge(df, mean_steps, by = "interval", sort = FALSE)
+
 # now plug in the mean_steps value for the missing NA values
 fixed_data$steps[is.na(fixed_data$steps)] <- fixed_data$mean_steps[is.na(fixed_data$steps)]
 head(fixed_data)
