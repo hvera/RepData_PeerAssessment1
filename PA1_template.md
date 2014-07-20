@@ -56,9 +56,10 @@ summary(df)
 
 > 2. Process/transform the data (if necessary) into a format suitable for your analysis
 
-Transform the date column to a proper Date data type.
 
 ```r
+# Transform the date column to a proper Date data type.
+
 df$date <- as.Date(df$date, format = "%Y-%m-%d")
 
 # aggregate the total steps per day
@@ -124,7 +125,7 @@ head(mean_steps)
 > 1. Make a histogram of the total number of steps taken each day
 > 
 
-_Histrogram of the total number of steps taken each day_
+_Histogram of the total number of steps taken each day_
 
 ```r
 hist(steps_per_day$steps, main = "Total number of steps per day", xlab = "Steps per day")
@@ -152,7 +153,7 @@ mean_median
 > 1. Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 >
 
-_Time series plot of the 5-minute intervals and the average number of steps taken, averaged against all days._
+_Time series plot of the 5-minute intervals and the average number of steps taken, averaged across all days._
 
 ```r
 plot(mean_steps$interval, mean_steps$mean_steps, type = "n",
@@ -178,7 +179,7 @@ mean_steps[which.max(mean_steps$mean_steps), 1]
 ## Imputing missing values
 > 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-_The total number of missing values in the dataset:_
+_The total number of rows with missing values in the dataset:_
 
 ```r
 sum(is.na(df$steps))
@@ -190,11 +191,12 @@ sum(is.na(df$steps))
 
 > 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
-_Using the mean for the interval, fill in the missing values._
+_We will fill in the missing values using the mean for the interval._
 
 ```r
 # merge the original dataset with the mean steps per interval set
 fixed_data <- merge(df, mean_steps, by = "interval", sort = FALSE)
+
 # now plug in the mean_steps value for the missing NA values
 fixed_data$steps[is.na(fixed_data$steps)] <- fixed_data$mean_steps[is.na(fixed_data$steps)]
 head(fixed_data)
@@ -281,7 +283,7 @@ _Histrogram of the total number of steps taken each day_
 
 
 ```r
-hist(steps_per_day_new$steps, main = "Total number of steps per day (missing data replaced)", 
+hist(steps_per_day_new$steps, main = "Total number of steps per day (after missing data replaced)", 
      xlab = "Steps per day")
 ```
 
@@ -337,8 +339,8 @@ mean_median
 ```
 
 ```r
-# calculate percent change = (NEW-OLD)/OLD
-percent_change <- (mean_median_new["median"] - mean_median["median"]) / mean_median["median"]
+# calculate percent change for the median = (NEW-OLD)/OLD
+percent_change_in_median <- (mean_median_new["median"] - mean_median["median"]) / mean_median["median"]
 ```
 
 The Mean with replacement estimated values is equal to the original Mean taken while ignoring NA values.
@@ -349,7 +351,7 @@ The percent change in the Median when using NA replacement is:
 
 
 ```r
-percent_change
+percent_change_in_median
 ```
 
 ```
